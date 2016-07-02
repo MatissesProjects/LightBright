@@ -1,5 +1,5 @@
 int colorChange = 0; // 0-r 1-g 2-b
-int colorPin = 12;
+int colorPin = 22;
 int numColors;
 
 int prevColor;
@@ -18,6 +18,8 @@ int colors[][colorDim] = {
 
 int up, down, left, right;
 int upPin = 50, downPin = 53, leftPin = 52, rightPin = 51;
+
+int blinkTimeMS = 500;
 
 struct led {
   int red, green, blue;
@@ -48,9 +50,16 @@ struct led {
   }
 };
 
-led leds[] = {led(2), led(5)};
-int ledToEdit = 0;
+// keep these synced with the led matrix below.
+const int matrixHeight = 2, matrixWidth = 2;
+led leds[][matrixHeight] = {
+  {led(2), led(5)},
+  {led(8), led(11)}
+};// matrix is transposed on board 
+  // 2 8
+  // 5 11
 
+int ledToEditX = 0, ledToEditY = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -66,28 +75,29 @@ void loop() {
   //select the led to change
   bool didMove = moveCursor();
   if(didMove) {
-    colorChange = leds[ledToEdit].indexOfColor;
-    paintRGBLed(leds[ledToEdit], 0);
-    delay(500);
-    paintRGBLed(leds[ledToEdit]);
+    colorChange = leds[ledToEditX][ledToEditY].indexOfColor;
+    blinkRGBLed(leds[ledToEditX][ledToEditY], blinkTimeMS);
   }
     
   Serial.print("\t");
-  Serial.print(ledToEdit);
+  Serial.print(ledToEditX);
+  Serial.print("\t");
+  Serial.print(ledToEditY);
   Serial.print("\t\t");
   Serial.println(didMove);
   
   //getting color to set it to
-  leds[ledToEdit].red = colors[colorChange][0];
-  leds[ledToEdit].green = colors[colorChange][1];
-  leds[ledToEdit].blue = colors[colorChange][2];
+  leds[ledToEditX][ledToEditY].red = colors[colorChange][0];
+  leds[ledToEditX][ledToEditY].green = colors[colorChange][1];
+  leds[ledToEditX][ledToEditY].blue = colors[colorChange][2];
   
-  leds[ledToEdit].indexOfColor = colorChange;
+  leds[ledToEditX][ledToEditY].indexOfColor = colorChange;
 
   //display the led's
-  for (int i = 0; i < (sizeof(leds) / sizeof(led)); ++i) {
-    paintRGBLed(leds[i]);
-    //debugInfo(rgb1[i]);
+  for (int x = 0; x < matrixWidth; ++x) {
+    for (int y = 0; y < matrixHeight; ++y)
+    paintRGBLed(leds[x][y]);
+    //debugInfo(rgb1[x][y]);
   }
 
   prevColor = colorChange;
@@ -113,18 +123,20 @@ bool moveCursor() {
   left = digitalRead(leftPin);
   right = digitalRead(rightPin);
 
-  Serial.print(up);
+  /*Serial.print(up);
   Serial.print("\t");
   Serial.print(down);
   Serial.print("\t");
   Serial.print(left);
   Serial.print("\t");
   Serial.print(right);
+*/
+  int prevLedX = ledToEditX;
+  int prevLedY = ledToEditY;
+  ledToEditY = constrain(ledToEditY + down - up, 0, 1);
+  ledToEditX = constrain(ledToEditX + right - left, 0, 1);
 
-  int prevLed = ledToEdit;
-  ledToEdit = constrain(ledToEdit + down - up, 0, sizeof(leds) / sizeof(led) - 1);
-
-  return prevLed != ledToEdit;
+  return prevLedX != ledToEditX || prevLedY != ledToEditY;
 }
 
 void debugInfo(led curColor) {
@@ -144,9 +156,11 @@ void paintRGBLed(led l) {
     analogWrite(l.pinGreen, l.green * colorIntensity);
     analogWrite(l.pinBlue, l.blue * colorIntensity);
 }
-void paintRGBLed(led l, int multiply) {
-    analogWrite(l.pinRed, l.red * colorIntensity * multiply);
-    analogWrite(l.pinGreen, l.green * colorIntensity * multiply);
-    analogWrite(l.pinBlue, l.blue * colorIntensity * multiply);
+void blinkRGBLed(led l, int timeToBlink) {
+    analogWrite(l.pinRed, 0);
+    analogWrite(l.pinGreen, 0);
+    analogWrite(l.pinBlue, 0);
+    delay(timeToBlink);
+    paintRGBLed(l);
 }
 
