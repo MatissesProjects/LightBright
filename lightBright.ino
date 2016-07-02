@@ -5,23 +5,25 @@ int numColors;
 int potPin = A0;
 
 int colorIntensity = 15;
-int colors[][3] = {{0, 0, 0},
-                   {1, 0, 0},
-                   {1, 1, 0},
-                   {0, 1, 0},
-                   {0, 1, 1},
-                   {0, 0, 1},
-                   {1, 0, 1},
-                   {1, 1, 1}};
+const int colorDim = 3;
+int colors[][colorDim] = {{0, 0, 0},
+                          {1, 0, 0},
+                          {1, 1, 0},
+                          {0, 1, 0},
+                          {0, 1, 1},
+                          {0, 0, 1},
+                          {1, 0, 1},
+                          {1, 1, 1}};
 
 int up, down, left, right;
+int upPin = 50, downPin = 53, leftPin = 52, rightPin = 51;
 
-struct rgb {
+struct led {
   int red, green, blue;
 
   int pinRed, pinBlue, pinGreen;
 
-  rgb(int r, int g, int b, int pr, int pg, int pb) {
+  led(int r, int g, int b, int pr, int pg, int pb) {
     red = r;
     green = g;
     blue = b;
@@ -30,7 +32,7 @@ struct rgb {
     pinBlue = pb;
   }
 
-  rgb(int p) {
+  led(int p) {
     red = 100;
     green = 100;
     blue = 200;
@@ -40,21 +42,25 @@ struct rgb {
   }
 };
 
-rgb rgb1[] = {rgb(2), rgb(5)};
+led leds[] = {led(2), led(5)};
 
 
 void setup() {
   Serial.begin(9600);
   pinMode(colorPin, INPUT);
-  numColors = 8;//(sizeof(colors)/sizeof(int));
+  pinMode(upPin, INPUT);
+  pinMode(downPin, INPUT);
+  pinMode(leftPin, INPUT);
+  pinMode(rightPin, INPUT);
+  numColors = (sizeof(colors)/sizeof(int[colorDim]));
 }
 
 void loop() {
   
-  up = digitalRead(50);
-  down = digitalRead(53);
-  left = digitalRead(52);
-  right = digitalRead(51);
+  up = digitalRead(upPin);
+  down = digitalRead(downPin);
+  left = digitalRead(leftPin);
+  right = digitalRead(rightPin);
 
   Serial.print(up);
   Serial.print("\t");
@@ -66,17 +72,17 @@ void loop() {
   
   
   //getting colors
-  for (int i = 0; i < (sizeof(rgb1) / sizeof(rgb)); ++i) {
-    rgb1[i].red = colors[colorChange][0];
-    rgb1[i].green = colors[colorChange][1];
-    rgb1[i].blue = colors[colorChange][2];
+  for (int i = 0; i < (sizeof(leds) / sizeof(led)); ++i) {
+    leds[i].red = colors[colorChange][0];
+    leds[i].green = colors[colorChange][1];
+    leds[i].blue = colors[colorChange][2];
   }
   
   //display
-  for (int i = 0; i < (sizeof(rgb1) / sizeof(rgb)); ++i) {
-    analogWrite(rgb1[i].pinRed, rgb1[i].red * colorIntensity);
-    analogWrite(rgb1[i].pinGreen, rgb1[i].green * colorIntensity);
-    analogWrite(rgb1[i].pinBlue, rgb1[i].blue * colorIntensity);
+  for (int i = 0; i < (sizeof(leds) / sizeof(led)); ++i) {
+    analogWrite(leds[i].pinRed, leds[i].red * colorIntensity);
+    analogWrite(leds[i].pinGreen, leds[i].green * colorIntensity);
+    analogWrite(leds[i].pinBlue, leds[i].blue * colorIntensity);
 
     //debugInfo(rgb1[i]);
   }
@@ -93,7 +99,7 @@ void loop() {
   delay(250);
 }
 
-void debugInfo(rgb curColor) {
+void debugInfo(led curColor) {
   Serial.print(colorChange);
     Serial.print("\t");
     /*
@@ -102,7 +108,6 @@ void debugInfo(rgb curColor) {
     Serial.print(curColor.green);
     Serial.print("\t");
     Serial.print(curColor.blue);*/
-    Serial.print(analogRead(A15));
     Serial.println("\n\n");
 }
 
