@@ -65,8 +65,12 @@ void setup() {
 void loop() {
   //select the led to change
   bool didMove = moveCursor();
-  if(didMove)
+  if(didMove) {
     colorChange = leds[ledToEdit].indexOfColor;
+    paintRGBLed(leds[ledToEdit], 0);
+    delay(500);
+    paintRGBLed(leds[ledToEdit]);
+  }
     
   Serial.print("\t");
   Serial.print(ledToEdit);
@@ -82,10 +86,7 @@ void loop() {
 
   //display the led's
   for (int i = 0; i < (sizeof(leds) / sizeof(led)); ++i) {
-    analogWrite(leds[i].pinRed, leds[i].red * colorIntensity);
-    analogWrite(leds[i].pinGreen, leds[i].green * colorIntensity);
-    analogWrite(leds[i].pinBlue, leds[i].blue * colorIntensity);
-
+    paintRGBLed(leds[i]);
     //debugInfo(rgb1[i]);
   }
 
@@ -136,5 +137,16 @@ void debugInfo(led curColor) {
     Serial.print("\t");
     Serial.print(curColor.blue);*/
   Serial.println("\n\n");
+}
+
+void paintRGBLed(led l) {
+    analogWrite(l.pinRed, l.red * colorIntensity);
+    analogWrite(l.pinGreen, l.green * colorIntensity);
+    analogWrite(l.pinBlue, l.blue * colorIntensity);
+}
+void paintRGBLed(led l, int multiply) {
+    analogWrite(l.pinRed, l.red * colorIntensity * multiply);
+    analogWrite(l.pinGreen, l.green * colorIntensity * multiply);
+    analogWrite(l.pinBlue, l.blue * colorIntensity * multiply);
 }
 
