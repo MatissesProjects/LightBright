@@ -69,6 +69,8 @@ void setup() {
   pinMode(leftPin, INPUT);
   pinMode(rightPin, INPUT);
   numColors = (sizeof(colors) / sizeof(int[colorDim]));
+  delay(50);
+  blinkRGBLed(leds[0][0], blinkTimeMS);
 }
 
 void loop() {
@@ -156,10 +158,17 @@ void paintRGBLed(led l) {
     analogWrite(l.pinGreen, l.green * colorIntensity);
     analogWrite(l.pinBlue, l.blue * colorIntensity);
 }
+
 void blinkRGBLed(led l, int timeToBlink) {
-    analogWrite(l.pinRed, 0);
-    analogWrite(l.pinGreen, 0);
-    analogWrite(l.pinBlue, 0);
+    if(l.indexOfColor == 0) {
+      analogWrite(l.pinRed, 1);
+      analogWrite(l.pinGreen, 1);
+      analogWrite(l.pinBlue, 1);
+    } else {
+      analogWrite(l.pinRed, 0);
+      analogWrite(l.pinGreen, 0);
+      analogWrite(l.pinBlue, 0);
+    }
     delay(timeToBlink);
     paintRGBLed(l);
 }
