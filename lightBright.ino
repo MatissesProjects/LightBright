@@ -3,7 +3,7 @@ int colorPin = 22;
 int numColors;
 
 int prevColor;
-int colorIntensity = 15;
+int colorIntensity = 130;
 const int colorDim = 3;
 int colors[][colorDim] = {
   {0, 0, 0},
@@ -51,10 +51,11 @@ struct led {
 };
 
 // keep these synced with the led matrix below.
-const int matrixHeight = 2, matrixWidth = 2;
+const int matrixHeight = 2, matrixWidth = 3;
 led leds[][matrixHeight] = {
   {led(2), led(5)},
-  {led(8), led(11)}
+  {led(8), led(11)},
+  {led(24), led(27)}
 };// matrix is transposed on board 
   // 2 8
   // 5 11
@@ -75,18 +76,17 @@ void setup() {
 
 void loop() {
   //select the led to change
-  bool didMove = moveCursor();
-  if(didMove) {
+  if(moveCursor()) {
     colorChange = leds[ledToEditX][ledToEditY].indexOfColor;
     blinkRGBLed(leds[ledToEditX][ledToEditY], blinkTimeMS);
   }
     
-  Serial.print("\t");
+  Serial.print("(");
   Serial.print(ledToEditX);
-  Serial.print("\t");
+  Serial.print(", ");
   Serial.print(ledToEditY);
-  Serial.print("\t\t");
-  Serial.println(didMove);
+  Serial.print(")\t\t");
+  Serial.println(leds[ledToEditX][ledToEditY].indexOfColor);
   
   //getting color to set it to
   leds[ledToEditX][ledToEditY].red = colors[colorChange][0];
@@ -135,8 +135,8 @@ bool moveCursor() {
 */
   int prevLedX = ledToEditX;
   int prevLedY = ledToEditY;
-  ledToEditY = constrain(ledToEditY + down - up, 0, 1);
-  ledToEditX = constrain(ledToEditX + right - left, 0, 1);
+  ledToEditY = constrain(ledToEditY + down - up, 0, matrixHeight - 1);
+  ledToEditX = constrain(ledToEditX + right - left, 0, matrixWidth - 1);
 
   return prevLedX != ledToEditX || prevLedY != ledToEditY;
 }
@@ -161,9 +161,9 @@ void paintRGBLed(led l) {
 
 void blinkRGBLed(led l, int timeToBlink) {
     if(l.indexOfColor == 0) {
-      analogWrite(l.pinRed, 1);
-      analogWrite(l.pinGreen, 1);
-      analogWrite(l.pinBlue, 1);
+      analogWrite(l.pinRed, colorIntensity);
+      analogWrite(l.pinGreen, colorIntensity);
+      analogWrite(l.pinBlue, colorIntensity);
     } else {
       analogWrite(l.pinRed, 0);
       analogWrite(l.pinGreen, 0);
