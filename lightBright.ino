@@ -3,7 +3,7 @@ int colorPin = 22;
 int numColors;
 
 int prevColor;
-int colorIntensity = 130;
+int colorIntensity = 130 ;
 const int colorDim = 3;
 int colors[][colorDim] = {
   {0, 0, 0},
@@ -17,7 +17,7 @@ int colors[][colorDim] = {
 };
 
 int up, down, left, right;
-int upPin = 50, downPin = 53, leftPin = 52, rightPin = 51;
+int upPin = 150, downPin = 153, leftPin = 152, rightPin = 151;
 
 int blinkTimeMS = 500;
 
@@ -37,25 +37,49 @@ struct led {
 
     //todo fix
     indexOfColor = 0;
+    
+    pinMode(pinRed, OUTPUT);
+    pinMode(pinBlue, OUTPUT);
+    pinMode(pinGreen, OUTPUT);
+  }
+  
+  led(int r, int g, int b, int p) {
+    red = r;
+    green = g;
+    blue = b;
+    pinRed = p;
+    pinGreen = p + 1;
+    pinBlue = p + 2;
+
+    //todo fix
+    indexOfColor = 0;
+    
+    pinMode(pinRed, OUTPUT);
+    pinMode(pinBlue, OUTPUT);
+    pinMode(pinGreen, OUTPUT);
   }
 
   led(int p) {
     red = 0;
-    green = 0;
+    green = 1;
     blue = 0;
     indexOfColor = 0;
     pinRed = p;
     pinGreen = p + 1;
     pinBlue = p + 2;
+    
+    pinMode(pinRed, OUTPUT);
+    pinMode(pinBlue, OUTPUT);
+    pinMode(pinGreen, OUTPUT);
   }
 };
 
 // keep these synced with the led matrix below.
-const int matrixHeight = 2, matrixWidth = 3;
+const int matrixHeight = 3, matrixWidth = 3;
 led leds[][matrixHeight] = {
-  {led(2), led(5)},
-  {led(8), led(11)},
-  {led(24), led(27)}
+  {led(22), led(25), led(28)},
+  {led(31), led(34), led(37)},
+  {led(40), led(43), led(46)}
 };// matrix is transposed on board 
   // 2 8
   // 5 11
