@@ -1,6 +1,9 @@
 #include "colors.h"
-
-#define animation firework1
+#define animation animation3
+//arrows
+//flag
+//binary
+//firework
 
 int frame = 0;
 
@@ -49,7 +52,7 @@ int animation3[][9][3] = {
   {
     colorblue, colorred, colorwhite,
     colorgreen, colorred, colorred,
-    colorblue, colorgreen, colorblue
+    colorred, colorgreen, colorblue
   },
 };
 
@@ -89,7 +92,7 @@ int rwb2[][9][3] = {
   }
 };
 
-int rwb3[][9][3] = {
+int flag[][9][3] = {
   {
     colorblue, colorblue, colorred,
     colorwhite, colorwhite, colorwhite,
@@ -102,7 +105,40 @@ int rwb3[][9][3] = {
   },
 };
 
-int firework1[][9][3] = {
+int flagRipple[][9][3] = {
+  {
+    colorblue, colorblue, colorred,
+    brightwhite, colorwhite, colorwhite,
+    brightred, colorred, colorred
+  },
+  {
+    colorblue, colorblue, colorred,
+    colorwhite, brightwhite, colorwhite,
+    colorred, brightred, colorred
+  },
+  {
+    colorblue, colorblue, colorred,
+    colorwhite, colorwhite, brightwhite,
+    colorred, colorred, brightred
+  },
+  {
+    colorblue, colorblue, colorwhite,
+    brightred, colorred, colorred,
+    brightwhite, colorwhite, colorwhite
+  },
+  {
+    colorblue, colorblue, colorwhite,
+    colorred, brightred, colorred,
+    colorwhite, brightwhite, colorwhite
+  },
+  {
+    colorblue, colorblue, brightwhite,
+    colorred, colorred, brightred,
+    colorwhite, colorwhite, brightwhite
+  },
+};
+
+int firework[][9][3] = {
   {
     coloroff, coloroff, coloroff,
     coloroff, coloroff, coloroff,
@@ -152,6 +188,72 @@ int firework1[][9][3] = {
     coloroff, coloroff, coloroff,
     coloroff, coloroff, coloroff,
     coloroff, coloroff, coloroff
+  },
+};
+
+int arrows[][9][3] = {
+  {
+    colorblue, colorblue, colorblue,
+    coloroff, colorblue, colorblue,
+    colorblue, coloroff, colorblue
+  },
+  {
+    colorgreen, coloroff, colorgreen,
+    coloroff, colorgreen, colorgreen,
+    colorgreen, colorgreen, colorgreen
+  },
+  {
+    colorred, coloroff, colorred,
+    colorred, colorred, coloroff,
+    colorred, colorred, colorred
+  },
+  {
+    coloryellow, coloryellow, coloryellow,
+    coloryellow, coloryellow, coloroff,
+    coloryellow, coloroff, coloryellow
+  }
+};
+
+int binary[][9][3] = {
+  {
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    coloroff, colorred, coloroff,
+    coloroff, coloroff, colorblue,
+    colorwhite, coloroff, coloroff
+  },
+  {
+    coloroff, coloroff, colorred,
+    coloroff, colorblue, coloroff,
+    coloroff, colorwhite, coloroff
+  },
+  {
+    coloroff, colorred, colorred,
+    coloroff, colorblue, colorblue,
+    colorwhite, colorwhite, coloroff
+  },
+  {
+    colorred, coloroff, coloroff,
+    colorblue, coloroff, coloroff,
+    coloroff, coloroff, colorwhite
+  },
+  {
+    colorred, colorred, coloroff,
+    colorblue, coloroff, colorblue,
+    colorwhite, coloroff, colorwhite
+  },
+  {
+    colorred, coloroff, colorred,
+    colorblue, colorblue, coloroff,
+    coloroff, colorwhite, colorwhite
+  },
+  {
+    colorred, colorred, colorred,
+    colorblue, colorblue, colorblue,
+    colorwhite, colorwhite, colorwhite
   },
 };
 

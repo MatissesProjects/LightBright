@@ -42,9 +42,9 @@ struct led {
   }
 
   void paintRGBLed() {
-    analogWrite(pinRed, red * colorIntensity);
-    analogWrite(pinGreen, green * colorIntensity);
-    analogWrite(pinBlue, blue * colorIntensity);
+    analogWrite(pinRed, constrain(red * colorIntensity, 0, 255));
+    analogWrite(pinGreen, constrain(green * colorIntensity, 0, 255));
+    analogWrite(pinBlue, constrain(blue * colorIntensity, 0, 255));
   }
 
   void blinkRGBLed(int timeToBlink) {

@@ -12,7 +12,7 @@ int ledToEditX = 0, ledToEditY = 1;
 int up, down, left, right;
 int upPin = 150, downPin = 153, leftPin = 152, rightPin = 151;
 
-int blinkTimeMS = 500;
+int blinkTimeInitial = 50, ledBlinkSpeed = 500;
 
 // keep these synced with the led matrix below.
 const int matrixHeight = 3, matrixWidth = 3;
@@ -30,22 +30,22 @@ void setup() {
   pinMode(leftPin, INPUT);
   pinMode(rightPin, INPUT);
   numColors = (sizeof(colors) / sizeof(int[colorDim]));
-  delay(50);
-  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeMS);
+  delay(blinkTimeInitial);
+  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeInitial);
 }
 
 void loop() {
   //select the led to change
-  if (moveCursor()) {
-    colorChange = leds[ledToEditX][ledToEditY].indexOfColor;
-    leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeMS);
-  }
+  //if (moveCursor()) {
+  //colorChange = leds[ledToEditX][ledToEditY].indexOfColor;
+  //  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeMS);
+  //}
 
   //debugPrintLed();
 
   //getting color to set it to
-  leds[ledToEditX][ledToEditY].setColor(colors[colorChange]);
-  leds[ledToEditX][ledToEditY].indexOfColor = colorChange;
+  //leds[ledToEditX][ledToEditY].setColor(colors[colorChange]);
+  //leds[ledToEditX][ledToEditY].indexOfColor = colorChange;
 
   //display the led's
   for (int x = 0; x < matrixWidth; ++x) {
@@ -55,7 +55,7 @@ void loop() {
       //get the button input for changing to the next color on the current pin
       //colorChange = (colorChange + digitalRead(colorPin)) % numColors;
 
-      leds[x][y].setColor(animation[frame][x*matrixWidth + y]);
+      leds[x][y].setColor(animation[frame][x * matrixWidth + y]);
 
       leds[x][y].paintRGBLed();
     }
@@ -69,11 +69,11 @@ void loop() {
   //    trigger display
   //   trigger input
   //delay(10)
-  delay(250);
+  delay(ledBlinkSpeed);
 
   //setup for next frame
   frame++;
-  frame %= sizeof(animation)/sizeof(int[9][3]);
+  frame %= sizeof(animation) / sizeof(int[9][3]);
 }
 
 //move the currently selected led for the light bright
