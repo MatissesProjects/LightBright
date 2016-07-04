@@ -3,7 +3,7 @@ int colorPin = 22;
 int numColors;
 
 int prevColor;
-int colorIntensity = 130 ;
+int colorIntensity = 128;
 const int colorDim = 3;
 
   int red[3] = {1, 0, 0};
@@ -74,9 +74,9 @@ struct led {
 // keep these synced with the led matrix below.
 const int matrixHeight = 3, matrixWidth = 3;
 led leds[][matrixHeight] = {
-  {led(22, purple), led(25), led(28)},
-  {led(31), led(34), led(37)},
-  {led(40), led(43), led(46)}
+  {led(22, purple), led(25, red), led(28, green)},
+  {led(31, yellow), led(34, white), led(37, blue)},
+  {led(40, red), led(43, cyan), led(46, green)}
 };// matrix is transposed on board 
   // 2 8
   // 5 11
@@ -102,13 +102,14 @@ void loop() {
     blinkRGBLed(leds[ledToEditX][ledToEditY], blinkTimeMS);
   }
     
-  Serial.print("(");
+  /*Serial.print("(");
   Serial.print(ledToEditX);
   Serial.print(", ");
   Serial.print(ledToEditY);
-  Serial.print(")\t\t");
-  Serial.println(leds[ledToEditX][ledToEditY].indexOfColor);
-  
+  Serial.print(")\t");
+  Serial.print(leds[ledToEditX][ledToEditY].indexOfColor);
+  Serial.println();
+  */
   //getting color to set it to
   leds[ledToEditX][ledToEditY].red = colors[colorChange][0];
   leds[ledToEditX][ledToEditY].green = colors[colorChange][1];
@@ -118,9 +119,10 @@ void loop() {
 
   //display the led's
   for (int x = 0; x < matrixWidth; ++x) {
-    for (int y = 0; y < matrixHeight; ++y)
+    for (int y = 0; y < matrixHeight; ++y){
     paintRGBLed(leds[x][y]);
-    //debugInfo(rgb1[x][y]);
+    //debugInfo(leds[x][y]);
+    }
   }
 
   prevColor = colorChange;
@@ -163,15 +165,12 @@ bool moveCursor() {
 }
 
 void debugInfo(led curColor) {
-  Serial.print(colorChange);
-  Serial.print("\t");
-  /*
     Serial.print(curColor.red);
     Serial.print("\t");
     Serial.print(curColor.green);
     Serial.print("\t");
-    Serial.print(curColor.blue);*/
-  Serial.println("\n\n");
+    Serial.print(curColor.blue);
+  Serial.println();
 }
 
 void paintRGBLed(led l) {
