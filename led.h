@@ -4,6 +4,7 @@ struct led {
   int pinRed, pinBlue, pinGreen;
 
   int indexOfColor;
+  int colorIntensity = 128;
 
   led(int pr, int pg, int pb, int r, int g, int b) {
     init(r, g, b, pr, pg, pb, 0);
@@ -40,6 +41,25 @@ struct led {
     blue = color[2];
   }
 
+  void paintRGBLed() {
+    analogWrite(pinRed, red * colorIntensity);
+    analogWrite(pinGreen, green * colorIntensity);
+    analogWrite(pinBlue, blue * colorIntensity);
+  }
+
+  void blinkRGBLed(int timeToBlink) {
+    if (indexOfColor == 0) {
+      analogWrite(pinRed, colorIntensity);
+      analogWrite(pinGreen, colorIntensity);
+      analogWrite(pinBlue, colorIntensity);
+    } else {
+      analogWrite(pinRed, 0);
+      analogWrite(pinGreen, 0);
+      analogWrite(pinBlue, 0);
+    }
+    delay(timeToBlink);
+    paintRGBLed();
+  }
 
   void debugInfo() {
     Serial.print(red);

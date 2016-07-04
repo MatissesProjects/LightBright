@@ -5,8 +5,6 @@ int colorChange = 0; // 0-r 1-g 2-b
 int colorPin = 122;
 int numColors;
 
-int prevColor;
-int colorIntensity = 128;
 const int colorDim = 3;
 
 int ledToEditX = 0, ledToEditY = 1;
@@ -33,14 +31,14 @@ void setup() {
   pinMode(rightPin, INPUT);
   numColors = (sizeof(colors) / sizeof(int[colorDim]));
   delay(50);
-  blinkRGBLed(leds[ledToEditX][ledToEditY], blinkTimeMS);
+  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeMS);
 }
 
 void loop() {
   //select the led to change
   if (moveCursor()) {
     colorChange = leds[ledToEditX][ledToEditY].indexOfColor;
-    blinkRGBLed(leds[ledToEditX][ledToEditY], blinkTimeMS);
+    leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeMS);
   }
 
   //debugPrintLed();
@@ -52,14 +50,13 @@ void loop() {
   //display the led's
   for (int x = 0; x < matrixWidth; ++x) {
     for (int y = 0; y < matrixHeight; ++y) {
-      prevColor = leds[x][y].indexOfColor;//colorChange;
       colorChange++;
       //get the button input for changing to the next color on the current pin
       colorChange = (colorChange + digitalRead(colorPin)) % numColors;
 
       leds[x][y].setColor(colors[colorChange]);
 
-      paintRGBLed(leds[x][y]);
+      leds[x][y].paintRGBLed();
     }
   }
   //Serial.println(colorChange);
@@ -91,26 +88,6 @@ bool moveCursor() {
   return prevLedX != ledToEditX || prevLedY != ledToEditY;
 }
 
-void paintRGBLed(led l) {
-  analogWrite(l.pinRed, l.red * colorIntensity);
-  analogWrite(l.pinGreen, l.green * colorIntensity);
-  analogWrite(l.pinBlue, l.blue * colorIntensity);
-}
-
-void blinkRGBLed(led l, int timeToBlink) {
-  if (l.indexOfColor == 0) {
-    analogWrite(l.pinRed, colorIntensity);
-    analogWrite(l.pinGreen, colorIntensity);
-    analogWrite(l.pinBlue, colorIntensity);
-  } else {
-    analogWrite(l.pinRed, 0);
-    analogWrite(l.pinGreen, 0);
-    analogWrite(l.pinBlue, 0);
-  }
-  delay(timeToBlink);
-  paintRGBLed(l);
-}
-
 void debugPrintLed() {
   Serial.print("(");
   Serial.print(ledToEditX);
@@ -131,5 +108,3 @@ void debugDirection() {
   Serial.print("\t");
   Serial.print(right);
 }
-
-
