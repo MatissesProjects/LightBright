@@ -1,4 +1,4 @@
-#include "colors.h"
+#include "animations.h"
 #include "led.h"
 
 int colorChange = 0; // 0-r 1-g 2-b
@@ -50,11 +50,12 @@ void loop() {
   //display the led's
   for (int x = 0; x < matrixWidth; ++x) {
     for (int y = 0; y < matrixHeight; ++y) {
-      colorChange++;
-      //get the button input for changing to the next color on the current pin
-      colorChange = (colorChange + digitalRead(colorPin)) % numColors;
 
-      leds[x][y].setColor(colors[colorChange]);
+      //colorChange++;
+      //get the button input for changing to the next color on the current pin
+      //colorChange = (colorChange + digitalRead(colorPin)) % numColors;
+
+      leds[x][y].setColor(animation[frame][x*matrixWidth + y]);
 
       leds[x][y].paintRGBLed();
     }
@@ -69,6 +70,10 @@ void loop() {
   //   trigger input
   //delay(10)
   delay(250);
+
+  //setup for next frame
+  frame++;
+  frame %= sizeof(animation)/sizeof(int[9][3]);
 }
 
 //move the currently selected led for the light bright
