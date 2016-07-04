@@ -1,16 +1,5 @@
-#define colorred     {1, 0, 0}
-#define colorgreen   {0, 1, 0}
-#define colorblue    {0, 0, 1}
-#define colorcyan    {0, 1, 1}
-#define coloryellow  {1, 1, 0}
-#define colorpurple  {1, 0, 1}
-#define colorwhite   {1, 1, 1}
-#define coloroff     {0, 0, 0}
-
-int colors[8][3] = {
-  coloroff, colorred, coloryellow, colorgreen,
-  colorcyan, colorblue, colorpurple, colorwhite
-};
+#include "colors.h"
+#include "led.h"
 
 int colorChange = 0; // 0-r 1-g 2-b
 int colorPin = 122;
@@ -26,48 +15,6 @@ int up, down, left, right;
 int upPin = 150, downPin = 153, leftPin = 152, rightPin = 151;
 
 int blinkTimeMS = 500;
-
-struct led {
-  int red, green, blue;
-  int pinRed, pinBlue, pinGreen;
-
-  int indexOfColor;
-
-  led(int pr, int pg, int pb, int r, int g, int b) {
-    init(r, g, b, pr, pg, pb, 0);
-  }
-
-  led(int p, int * c) {
-    init(c[0], c[1], c[2], p, p + 1, p + 2, 0);
-  }
-
-  //debug
-  led(int p) {
-    init(0, 1, 0, p, p + 1, p + 2, 0);
-  }
-
-  void init(int r, int g, int b, int pr, int pg, int pb, int iofColor) {
-    red = r;
-    green = g;
-    blue = b;
-    pinRed = pr;
-    pinGreen = pg;
-    pinBlue = pb;
-
-    //todo fix
-    indexOfColor = iofColor;
-
-    pinMode(pinRed, OUTPUT);
-    pinMode(pinBlue, OUTPUT);
-    pinMode(pinGreen, OUTPUT);
-  }
-
-  void setColor(int * color) {
-    red = color[0];
-    green = color[1];
-    blue = color[2];
-  }
-};
 
 // keep these synced with the led matrix below.
 const int matrixHeight = 3, matrixWidth = 3;
@@ -185,12 +132,4 @@ void debugDirection() {
   Serial.print(right);
 }
 
-void debugInfo(led curColor) {
-  Serial.print(curColor.red);
-  Serial.print("\t");
-  Serial.print(curColor.green);
-  Serial.print("\t");
-  Serial.print(curColor.blue);
-  Serial.println();
-}
 
