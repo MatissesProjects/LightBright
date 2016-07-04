@@ -5,15 +5,25 @@ int numColors;
 int prevColor;
 int colorIntensity = 130 ;
 const int colorDim = 3;
-int colors[][colorDim] = {
-  {0, 0, 0},
-  {1, 0, 0},
-  {1, 1, 0},
-  {0, 1, 0},
-  {0, 1, 1},
-  {0, 0, 1},
-  {1, 0, 1},
-  {1, 1, 1}
+
+  int red[3] = {1, 0, 0};
+  int green[3] = {0, 1, 0};
+  int blue[3] = {0, 0, 1};
+  int cyan[3] = {0, 1, 1};
+  int yellow[3] = {1, 1, 0};
+  int purple[3] = {1, 0, 1};
+  int white[3] = {1, 1, 1};
+  int off[3] = {0, 0, 0};
+
+int colors[3][8] = {
+  *off,
+  *red,
+  *yellow,
+  *green,
+  *cyan,
+  *blue,
+  *purple,
+  *white
 };
 
 int up, down, left, right;
@@ -27,7 +37,24 @@ struct led {
 
   int indexOfColor;
 
-  led(int r, int g, int b, int pr, int pg, int pb) {
+  led(int pr, int pg, int pb, int r, int g, int b) {
+    init(r, g, b, pr, pg, pb);
+  }
+  
+  led(int p, int r, int g, int b) {
+    init(r, g, b, p, p + 1, p + 2);
+  }
+
+  led(int p, int * c) {
+    init(c[0], c[1], c[2], p, p + 1, p + 2);
+  }
+
+  //debug
+  led(int p) {
+    init(0, 1, 0, p, p + 1, p + 2);
+  }
+
+  void init(int r, int g, int b, int pr, int pg, int pb) {
     red = r;
     green = g;
     blue = b;
@@ -42,42 +69,12 @@ struct led {
     pinMode(pinBlue, OUTPUT);
     pinMode(pinGreen, OUTPUT);
   }
-  
-  led(int r, int g, int b, int p) {
-    red = r;
-    green = g;
-    blue = b;
-    pinRed = p;
-    pinGreen = p + 1;
-    pinBlue = p + 2;
-
-    //todo fix
-    indexOfColor = 0;
-    
-    pinMode(pinRed, OUTPUT);
-    pinMode(pinBlue, OUTPUT);
-    pinMode(pinGreen, OUTPUT);
-  }
-
-  led(int p) {
-    red = 0;
-    green = 1;
-    blue = 0;
-    indexOfColor = 0;
-    pinRed = p;
-    pinGreen = p + 1;
-    pinBlue = p + 2;
-    
-    pinMode(pinRed, OUTPUT);
-    pinMode(pinBlue, OUTPUT);
-    pinMode(pinGreen, OUTPUT);
-  }
 };
 
 // keep these synced with the led matrix below.
 const int matrixHeight = 3, matrixWidth = 3;
 led leds[][matrixHeight] = {
-  {led(22), led(25), led(28)},
+  {led(22, purple), led(25), led(28)},
   {led(31), led(34), led(37)},
   {led(40), led(43), led(46)}
 };// matrix is transposed on board 
