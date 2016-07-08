@@ -1,3 +1,5 @@
+#include <BasicLinearAlgebra.h>
+
 #include "animations.h"
 #include "led.h"
 
@@ -31,7 +33,7 @@ void setup() {
   pinMode(rightPin, INPUT);
   numColors = (sizeof(colors) / sizeof(int[colorDim]));
   delay(blinkTimeInitial);
-  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeInitial);
+  //leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeInitial);
 }
 
 void loop() {

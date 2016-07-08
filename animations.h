@@ -1,11 +1,35 @@
 #include "colors.h"
-#define animation animation3
-//arrows
-//flag
-//binary
+#define animation follower
 //firework
+//animation3
+//arrows
+//binary
+//flag
+//follower
 
 int frame = 0;
+
+
+
+int debug[][9][3] = {
+  {
+    colorgreen, colorgreen, colorgreen,
+    colorgreen, colorgreen, colorgreen,
+    colorgreen, colorgreen, colorgreen
+  },
+  {
+    colorblue, colorblue, colorblue,
+    colorblue, colorblue, colorblue,
+    colorblue, colorblue, colorblue
+  },
+  {
+    colorred, colorred, colorred,
+    colorred, colorred, colorred,
+    colorred, colorred, colorred
+  }
+};
+
+
 
 int animation1[][9][3] = {
   {
@@ -254,6 +278,107 @@ int binary[][9][3] = {
     colorred, colorred, colorred,
     colorblue, colorblue, colorblue,
     colorwhite, colorwhite, colorwhite
+  },
+};
+
+int follower[][9][3] = {
+  {
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    colorred, coloroff, coloroff,
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    colorwhite, colorred, coloroff,
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    colorblue, colorwhite, colorred,
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    colorred, colorblue, colorwhite,
+    coloroff, coloroff, colorred,
+    coloroff, coloroff, coloroff
+  },
+  {
+    colorwhite, colorred, colorblue,
+    coloroff, coloroff, colorwhite,
+    coloroff, coloroff, colorred
+  },
+  {
+    colorblue, colorwhite, colorred,
+    coloroff, coloroff, colorblue,
+    coloroff, colorred, colorwhite
+  },
+  {
+    colorred, colorblue, colorwhite,
+    coloroff, coloroff, colorred,
+    colorred, colorwhite, colorblue
+  },
+  {
+    colorwhite, colorred, colorblue,
+    colorred, coloroff, colorwhite,
+    colorwhite, colorblue, colorred
+  },
+  {
+    colorblue, colorwhite, colorred,
+    colorwhite, colorred, colorblue,
+    colorblue, colorred, colorwhite
+  },
+
+//off part of the pattern
+  
+  {
+    coloroff, colorblue, colorwhite,
+    colorblue, colorwhite, colorred,
+    colorred, colorwhite, colorblue
+  },
+  {
+    coloroff, coloroff, colorblue,
+    colorred, colorblue, colorwhite,
+    colorwhite, colorblue, colorred
+  },
+  {
+    coloroff, coloroff, coloroff,
+    colorwhite, colorred, colorblue,
+    colorblue, colorred, colorwhite
+  },
+  {
+    coloroff, coloroff, coloroff,
+    colorblue, colorwhite, coloroff,
+    colorred, colorwhite, colorblue
+  },
+  {
+    coloroff, coloroff, coloroff,
+    colorred, colorblue, coloroff,
+    colorwhite, colorblue, coloroff
+  },
+  {
+    coloroff, coloroff, coloroff,
+    colorwhite, colorred, coloroff,
+    colorblue, coloroff, coloroff
+  },
+  {
+    coloroff, coloroff, coloroff,
+    colorblue, colorwhite, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    coloroff, coloroff, coloroff,
+    coloroff, colorblue, coloroff,
+    coloroff, coloroff, coloroff
+  },
+  {
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff,
+    coloroff, coloroff, coloroff
   },
 };
 
