@@ -15,23 +15,25 @@ int upPin = 150, downPin = 153, leftPin = 152, rightPin = 151;
 int blinkTimeInitial = 50, ledBlinkSpeed = 500;
 
 // keep these synced with the led matrix below.
-const int matrixHeight = 3, matrixWidth = 3;
+const int matrixHeight = 1, matrixWidth = 1;
 led leds[][matrixHeight] = {
-  {led(22), led(25), led(28)},
-  {led(31), led(34), led(37)},
-  {led(40), led(43), led(46)}
+  {led(11)}
 };
 
 void setup() {
   Serial.begin(9600);
+  // setupControls();
+  numColors = (sizeof(colors) / sizeof(int[colorDim]));
+  delay(blinkTimeInitial);
+  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeInitial);
+}
+
+void setupControls() {
   pinMode(colorPin, INPUT);
   pinMode(upPin, INPUT);
   pinMode(downPin, INPUT);
   pinMode(leftPin, INPUT);
   pinMode(rightPin, INPUT);
-  numColors = (sizeof(colors) / sizeof(int[colorDim]));
-  delay(blinkTimeInitial);
-  leds[ledToEditX][ledToEditY].blinkRGBLed(blinkTimeInitial);
 }
 
 void loop() {
@@ -50,14 +52,14 @@ void loop() {
   //display the led's
   for (int x = 0; x < matrixWidth; ++x) {
     for (int y = 0; y < matrixHeight; ++y) {
-
+      led currentLed = leds[x][y];
       //colorChange++;
       //get the button input for changing to the next color on the current pin
       //colorChange = (colorChange + digitalRead(colorPin)) % numColors;
+      //debugLedValue(currentLed);
+      currentLed.setColor(animation[frame][x * matrixWidth + y]);
 
-      leds[x][y].setColor(animation[frame][x * matrixWidth + y]);
-
-      leds[x][y].paintRGBLed();
+      currentLed.paintRGBLed();
     }
   }
   //Serial.println(colorChange);
@@ -73,7 +75,10 @@ void loop() {
 
   //setup for next frame
   frame++;
-  frame %= sizeof(animation) / sizeof(int[9][3]);
+  int animSize = sizeof(animation);
+  int frameSize = sizeof(int[matrixHeight * matrixWidth][3]);
+  //debugFrameSize(animSize, frameSize);
+  frame %= animSize / frameSize;
 }
 
 //move the currently selected led for the light bright
@@ -93,14 +98,31 @@ bool moveCursor() {
   return prevLedX != ledToEditX || prevLedY != ledToEditY;
 }
 
+void debugFrameSize(int animSize, int frameSize){
+  Serial.print("size ratio: ");
+  Serial.print(animSize/frameSize);
+  Serial.print("\tanimation size: ");
+  Serial.print(animSize);
+  Serial.print("\tframe size: ");
+  Serial.print(frameSize);
+}
+
+void debugLedValue(led l) {
+  Serial.print(l.red);
+  Serial.print(",");
+  Serial.print(l.green);
+  Serial.print(",");
+  Serial.print(l.blue);
+  Serial.print("\t");
+}
+
 void debugPrintLed() {
   Serial.print("(");
   Serial.print(ledToEditX);
   Serial.print(", ");
   Serial.print(ledToEditY);
   Serial.print(")\t");
-  Serial.print(leds[ledToEditX][ledToEditY].indexOfColor);
-  Serial.println();
+  Serial.println(leds[ledToEditX][ledToEditY].indexOfColor);
 
 }
 

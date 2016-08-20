@@ -1,11 +1,22 @@
 #include "colors.h"
-#define animation animation3
+#define animation oneByOne
 //arrows
 //flag
 //binary
 //firework
 
 int frame = 0;
+
+int oneByOne[][1][3] = {
+  {colorred},
+  {colorgreen},
+  {colorblue},
+  {colorcyan},
+  {coloryellow},
+  {colorpurple},
+  {colorwhite},
+  {coloroff}
+};
 
 int animation1[][9][3] = {
   {
