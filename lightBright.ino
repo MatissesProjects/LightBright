@@ -15,9 +15,10 @@ int upPin = 150, downPin = 153, leftPin = 152, rightPin = 151;
 int blinkTimeInitial = 50, ledBlinkSpeed = 500;
 
 // keep these synced with the led matrix below.
-const int matrixHeight = 1, matrixWidth = 1;
+const int matrixHeight = 2, matrixWidth = 2;
 led leds[][matrixHeight] = {
-  {led(11)}
+  {led(11),led(8)},
+  {led(5),led(2)}
 };
 
 void setup() {
@@ -76,7 +77,7 @@ void loop() {
   //setup for next frame
   frame++;
   int animSize = sizeof(animation);
-  int frameSize = sizeof(int[matrixHeight * matrixWidth][3]);
+  int frameSize = sizeof(int[matrixHeight * matrixWidth][colorDim]);
   //debugFrameSize(animSize, frameSize);
   frame %= animSize / frameSize;
 }
