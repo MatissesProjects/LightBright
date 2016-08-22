@@ -1,11 +1,67 @@
 #include "colors.h"
-#define animation animation3
+#define animation twoByTwo
 //arrows
 //flag
 //binary
 //firework
 
 int frame = 0;
+
+int oneByOne[][1][3] = {
+  {colorred},
+  {colorgreen},
+  {colorblue},
+  {colorcyan},
+  {coloryellow},
+  {colorpurple},
+  {colorwhite},
+  {coloroff}
+};
+
+int oneByTwo[][2][3] = {
+  {colorred,colorgreen},
+  {colorgreen,colorblue},
+  {colorblue,colorcyan},
+  {colorcyan,coloryellow},
+  {coloryellow,colorpurple},
+  {colorpurple,colorwhite},
+  {colorwhite,coloroff},
+  {coloroff,colorred}
+};
+
+int twoByTwo_test[][4][3] = {
+  {
+    colorgreen, colorgreen,
+    colorgreen, colorgreen
+  },
+  {
+    colorblue, colorblue,
+    colorblue, colorblue
+  },
+    {
+    colorred, colorred,
+    colorred, colorred
+  }
+};
+
+int twoByTwo[][4][3] = {
+  {
+    colorred, colorgreen,
+    coloroff, colorblue
+  },
+  {
+    coloroff, colorred,
+    colorblue, colorgreen
+  },
+    {
+    colorblue, coloroff,
+    colorgreen, colorred
+  },
+  {
+    colorgreen, colorblue,
+    colorred, coloroff
+  },
+};
 
 int animation1[][9][3] = {
   {
